@@ -67,6 +67,48 @@ def get_omic_to_center():
     return omic_to_center
 
 
+def no_normalisation():
+    """
+    Extract data from source file, add center and rename OMICID
+    variable to be parse by the visualisation function
+    - no normalisation is performed there, just a tool for comparison with
+      normalized data
+    """
+
+    ## parameters
+    input_file_name = "data/flow_cytometry_transmart_like_PHASE_I_II.csv"
+    output_file_name = "data/flow_cytometry_no_normalisation.csv"
+
+    ## importation
+    import pandas as pd
+    from sklearn import preprocessing
+    import numpy as np
+
+    ## load cytmetry dataset
+    df_cyto = pd.read_csv(input_file_name, sep="\t", low_memory=False)
+
+    ## set non float values to np.nan
+    df_cyto = df_cyto.replace('MISSING', np.nan)
+    df_cyto = df_cyto.replace('ERROR_FREQ', np.nan)
+    df_cyto = df_cyto.replace('ERROR', np.nan)
+
+    ## rename stupid variable
+    df_cyto = df_cyto.rename(columns={"\\Cross Sectional\\Low Dimensional Data\\Clinical\\Sampling\\OMIC number\\ ":'OMICID'})
+
+    ## get omic to center
+    omic_to_center = get_omic_to_center()
+
+    ## add center
+    df_cyto['CENTER'] = df_cyto['OMICID']
+    for omic in omic_to_center.keys():
+        df_cyto["CENTER"] = df_cyto["CENTER"].replace(omic, omic_to_center[omic])
+
+    # save dataset
+    df_cyto.to_csv(output_file_name, index=False)
+
+
+
+
 
 def simple_normalisation():
     """
@@ -111,6 +153,15 @@ def simple_normalisation():
     # re add OMICID
     scaled_df['OMICID'] = df_cyto["\\Cross Sectional\\Low Dimensional Data\\Clinical\Sampling\\OMIC number\\ "]
 
+    ## add CENTER
+    ## get omic to center
+    omic_to_center = get_omic_to_center()
+
+    ## add center
+    scaled_df['CENTER'] = scaled_df['OMICID']
+    for omic in omic_to_center.keys():
+        scaled_df["CENTER"] = scaled_df["CENTER"].replace(omic, omic_to_center[omic])
+
     # save standardized data
     scaled_df.to_csv(output_file_name, index=False)
 
@@ -130,7 +181,7 @@ def center_normalisation():
     ## parameters
     input_file_name = "data/flow_cytometry_transmart_like_PHASE_I_II.csv"
     dataset_file_list = []
-    output_file_name = "data/flow_cytometry_center_normalisation.csv"
+    final_output_file_name = "data/flow_cytometry_center_normalisation.csv"
 
     ## [LOAD DATASET]
     ## load dataset
@@ -204,8 +255,10 @@ def center_normalisation():
     final_df = pd.concat(df_list)
 
     # save dataframe to a csv file
-    final_df.to_csv(output_file_name)
+    final_df.to_csv(final_output_file_name)
 
-#normalisation()
+
+
+#no_normalisation()
 #simple_normalisation()
-center_normalisation()
+#center_normalisation()
