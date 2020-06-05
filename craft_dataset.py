@@ -89,13 +89,14 @@ def craft_panel_5_dataset():
 def craft_article_dataset():
     """
     Craft dataset for the SERVIER
+    Focus on FREQUENCY data
     """
 
     ## importation
     import pandas as pd
 
     ## parameters
-    # -> target variables
+    # -> target variables for table 1
     target_variables = ["\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P1/PMN_IN LEUKOCYTES_FREQUENCY",
     "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P1/CD15HIGHCD16NEG_EOSINOPHILS_IN PMN_FREQUENCY",
     "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\ P1/CD15LOWCD16HIGH_NEUTROPHILS_IN PMN_FREQUENCY",
@@ -121,6 +122,23 @@ def craft_article_dataset():
     "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P2/MDC1_IN MDC_FREQUENCY",
     "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P2/MDC2_IN MDC_FREQUENCY",
     "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P2/PDC_IN DC_FREQUENCY"]
+
+    # -> target variables for table 2 - CD4
+    target_variables_table2_cd4 = ["\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD4_TN_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD4_TCM_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD4_TEM_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD4_TEMRA_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P4/CD4POS_CD25HIGHCD127LOW_IN CD4POS_CD8NEG_FREQUENCY"]
+
+    # -> target variables for table 2 - CD8
+    ## TODO : check presence in datafile
+    target_variables_table2_cd4 = ["\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD8_TN_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD8_TCM_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD8_TEM_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P3/CD8_TEMRA_IN CD4POS_FREQUENCY",
+    "\\Cross Sectional\\Low Dimensional Data\\Flow cytometry\\ P4/CD8POS_CD25HIGHCD127LOW_IN CD4POS_CD8NEG_FREQUENCY"]
+
+
 
     ## load datafile
     df = pd.read_csv("data/flow_cytometry_center_normalisation.csv")
